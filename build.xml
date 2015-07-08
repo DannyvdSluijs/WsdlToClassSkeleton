@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="WsdlToClassSkeleton" default="build">
+    <property environment="env" />
+    <target name="build"
+         depends="prepare,composer,wsdltoclass,lint,phpunit"/>
+
+    <target name="clean" description="Cleanup build artifacts">
+    </target>
+
+    <target name="prepare" depends="clean" description="Prepare for build">
+    </target>
+
+    <target name="wsdltoclass" depends="composer" description="Parse the wsdl to php classes">
+        <exec executable="./vendor/bin/wsdltoclass" failonerror="true">
+            <arg value="wsdltoclass:generate" />
+            <arg value="http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL" />
+            <arg value="--namespace" />
+            <arg value="WsdlToClassSkeleton\Soap" />
+            <arg value="--destination" />
+            <arg path="src/WsdlToClassSkeleton/Soap" />
+	</exec>
+    </target>
+
+    <target name="composer" description="Prepare for build">
+        <exec executable="curl" failonerror="true">
+            <arg value="https://getcomposer.org/installer" />
+            <arg value="--output" />
+            <arg path="${basedir}/installer.php" />
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/installer.php"/>
+        </exec>
+        <delete file="${basedir}/installer.php"/>
+        <exec executable="${basedir}/composer.phar" failonerror="true">
+            <arg value="install" />
+        </exec>
+    </target>
+
+    <target name="lint" description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+
+            <fileset dir="${basedir}">
+                <exclude name="**/vendor/**" />
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+        <exec executable="./vendor/bin/phpunit" failonerror="true"/>
+    </target>
+</project>

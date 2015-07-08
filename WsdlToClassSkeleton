@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+if (PHP_SAPI !== 'cli') {
+    echo 'Warning: Composer should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
+}
+
+$autoLoaderFiles = array(
+    __DIR__ . '/vendor/autoload.php',
+);
+
+foreach ($autoLoaderFiles as $autoLoaderFile) {
+    if (is_readable($autoLoaderFile)) {
+        $loader = include $autoLoaderFile;
+        break;
+    }
+}
+
+if (!$loader) {
+    die('You must set up the project dependencies.');
+}
+
+// set to run indefinitely if needed
+set_time_limit(0);
+
+/* Optional. It’s better to do it in the php.ini file */
+date_default_timezone_set('Europe/Amsterdam');
+
+$app = new \Cilex\Application('Cilex');
+$app->command(new \WsdlToClassSkeleton\Commands\ForecastCommand());
+$app->run();

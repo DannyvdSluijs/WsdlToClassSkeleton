@@ -1,0 +1,5 @@
+/vendor
+/nbproject
+/src/WsdlToClassSkeleton/Soap
+/cache.properties
+/composer.phar

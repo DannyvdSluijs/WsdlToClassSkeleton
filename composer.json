@@ -1,0 +1,22 @@
+{
+    "name": "dvandersluijs/weather",
+    "description": "Test the wsdl-to-class package with a weather soap service [http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL]",
+    "license": "GNU GENERAL PUBLIC LICENSE",
+    "authors": [
+        {
+            "name": "Danny van der Sluijs",
+            "email": "danny.vandersluijs@icloud.com"
+        }
+    ],
+    "require": {
+        "cilex/cilex": "dev-master",
+	"dvandersluijs/wsdl-to-class": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit-mock-objects": "2.3.0"
+    },
+    "autoload": {
+        "psr-0": { "Weather": "src/" }
+    }
+}
