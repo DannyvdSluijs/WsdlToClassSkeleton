@@ -3,7 +3,7 @@
 <project name="WsdlToClassSkeleton" default="build">
     <property environment="env" />
     <target name="build"
-         depends="prepare,composer,wsdltoclass,lint,phpunit"/>
+         depends="prepare,composer,wsdltoclass,lint,phpunit,forecast"/>
 
     <target name="clean" description="Cleanup build artifacts">
     </target>
@@ -18,8 +18,14 @@
             <arg value="--namespace" />
             <arg value="WsdlToClassSkeleton\Soap" />
             <arg value="--destination" />
-            <arg path="src/WsdlToClassSkeleton/Soap" />
-	</exec>
+            <arg path="src/WsdlToClassSkeleton/Soap/" />
+        </exec>
+    </target>
+
+    <target name="forecast" depends="wsdltoclass" description="Forecast the weather in Cupertino">
+        <exec executable="./WsdlToClassSkeleton" failonerror="true">
+            <arg value="weather:forecast" />
+        </exec>
     </target>
 
     <target name="composer" description="Prepare for build">
